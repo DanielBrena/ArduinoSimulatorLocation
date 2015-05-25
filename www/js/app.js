@@ -3,7 +3,7 @@ var module = ons.bootstrap('my-app', ['onsen']);
 
 module.controller('PrincipalCtrl',function($scope,$interval){
 	Parse.initialize("feN1oQBjjIwhAm17ssUClGit9YzUGe3otyBQnuCu", "WCjSy03NpDIHs73xifL91RVAggGFajB7KetQLOKm");
-
+    var socket = io.connect('http://192.168.1.66:3000');
 	$scope.activo = false;
 	$scope.tiempo = 5;
 	$scope.ubicacion = {};
@@ -38,9 +38,14 @@ module.controller('PrincipalCtrl',function($scope,$interval){
       		$scope.ubicacion.lat = position.coords.latitude;
 	    	$scope.ubicacion.lng = position.coords.longitude;
 	    	$scope.ubicaciones.push($scope.ubicacion);
+            socket.emit('send:message', { 
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+
       	});
 
-      	var Arduino = Parse.Object.extend('ArduinoSim');
+      	/*var Arduino = Parse.Object.extend('ArduinoSim');
         var Ubicacion = Parse.Object.extend('Ubicacion');
 
 
@@ -67,7 +72,7 @@ module.controller('PrincipalCtrl',function($scope,$interval){
             error:function(){
                 console.log("Error");
             }
-        });
+        });*/
 
 
         
